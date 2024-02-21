@@ -1,0 +1,145 @@
+1.  Create Tables : 
+CREATE TABLE Suppliers(
+  CompanyID int,
+  CompanyName varchar(255),
+  City varchar(255),
+  Country varchar(255)
+);
+------------------------
+CREATE TABLE Products(
+  ProductID int,
+  ProductName varchar(255),
+  Quantity int,
+  ProductType varchar(255),
+  City varchar(255)
+);
+--------------------------
+CREATE TABLE Orders(
+  OrderID int,
+  SupplierID int,
+  ProductID int,
+  Quantity int
+);
+
+2.  Insert Data: 
+INSERT INTO Suppliers
+VALUES
+(1, 'ChemSupply GmbH', 'Berlin', 'Germany'),
+(2, 'LabEquip Co', 'Munich', 'Germany'),
+(3, 'ReagentExpress', 'San Francisco', 'USA'),
+-------------------------------------------
+INSERT INTO Products
+VALUES
+(1, 'Sodium Chloride', 50, 'Chemical', 'Berlin'),
+(2, 'Erlenmeyer Flask', 150, 'Equipment', 'Munich'),
+(3, 'Bunsen Burner', 75, 'Equipment', 'San Francisco');
+-----------------------------------------------------------
+INSERT INTO Orders
+VALUES
+(1, 1, 1, 10),
+(2, 2, 2, 5),
+(3, 3, 3, 15);
+
+1. Insert New Suppliers: 
+
+INSERT INTO Suppliers
+VALUES
+(4, 'LabChem', 'Hamburg', 'Germany'),
+(5, 'BioLab Ltd', 'Cologne', 'Germany'),
+(6, 'TechChemicals', 'New York', 'USA');
+
+2. Select All Suppliers: 
+SELECT * FROM Suppliers;
+
+3. Find Unique Cities: 
+SELECT DISTINCT city FROM Suppliers;
+
+4. Order Details Insertion: 
+INSERT INTO Orders
+VALUES
+(4, 4, 4, 8),
+(5, 5, 5, 12),
+(6, 6, 6, 17);
+
+Filtering and Sorting
+5. Suppliers from a Specific Country: 
+SELECT * FROM Suppliers
+WHERE country = 'USA';
+
+6. German Suppliers Sorted: 
+SELECT * FROM Suppliers
+WHERE country = 'Germany'
+order by companyname ASC;
+------------------------
+SELECT * FROM Suppliers
+WHERE country = 'Germany'
+order by companyname DESC;
+
+7. Suppliers with Names Starting with 'K': 
+SELECT * FROM Suppliers
+WHERE country = 'Germany' AND companyname LIKE 'K%';
+--------------------------------------------
+SELECT * FROM Suppliers
+WHERE country = 'Germany' AND companyname LIKE 'S%';    
+
+Advanced Queries and Aggregations
+8. Correcting Country Names: 
+UPDATE Suppliers
+SET country = 'Germany'
+WHERE country = 'Germnay';
+
+9. Deleting Records: 
+DELETE FROM Suppliers
+WHERE companyid = 6;
+
+10. Limiting Results: 
+SELECT * FROM Suppliers
+LIMIT 3;
+
+11. Aggregations: 
+SELECT 
+MIN(quantity),
+MAX(quantity),
+AVG(quantity) from Orders;
+---------------------
+SELECT 
+MIN(quantity),
+MAX(quantity),
+AVG(quantity) from Products;
+----------------------
+SELECT 
+MIN(quantity) as [Minquantity],
+MAX(quantity) as [Maxquantity],
+AVG(quantity) as [Average] from Products;
+
+Grouping and Counting
+12. Counting Distinct Countries and Prices or producttype: 
+SELECT COUNT(DISTINCT country) FROM Suppliers;
+SELECT COUNT(DISTINCT producttype) FROM Products;
+
+13. Products Count by City: 
+SELECT city, COUNT(productid) FROM Products
+GROUP by city;
+
+ Advanced Exercises:
+14. Sum and Average Calculations: 
+ALTER TABLE Products
+add COLUMN Price int;
+------------------
+UPDATE Products
+SET price = 250
+WHERE price IS NULL;
+-----------------
+SELECT city, 
+SUM(quantity) as [Total quantity],
+AVG(price) as [Average price] FROM Products
+GROUP by city;
+-----------------------------
+SELECT productname, 
+SUM(quantity) as [Total quantity],
+AVG(price) as [Average price] FROM Products
+GROUP by productname;
+
+15. Grouping Products by City: 
+SELECT city, COUNT(productid) FROM Products
+GROUP by city;
